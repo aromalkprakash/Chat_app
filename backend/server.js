@@ -16,6 +16,6 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authUsers)
 
 app.listen(PORT, () => {
-    connectToMongodb()
+    connectToMongodb();
     console.log(`server running on port ${PORT}`)
 });
