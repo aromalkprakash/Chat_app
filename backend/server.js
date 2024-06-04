@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authUsers);
+app.use("/api/messages", messageRoutes);
 
 app.listen(PORT, () => {
     connectToMongodb();
