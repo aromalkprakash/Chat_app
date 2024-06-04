@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 
 import authUsers from "./routes/auth.routes.js";
+import messageRoutes from "./routes/message.routes.js"
+
 import connectToMongodb from "./db/connectToMongodb.js";
 
 
