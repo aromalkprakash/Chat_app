@@ -127,6 +127,8 @@ const SignUp = () => {
             >
               {isPending ? "Loading..." : "Sign up"}
             </button>
+            {isError && <p className='text-red-500'>{error.message}</p>}
+
           </div>
         </form>
       </div>
