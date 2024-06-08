@@ -1,9 +1,12 @@
 import React from 'react'
 import { BiLogOut } from "react-icons/bi";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {toast} from "react-hot-toast"
 
 const LogoutButton = () => {
+
+  const queryClient = useQueryClient();
+  
   const { mutate } = useMutation({
     mutationFn: async () => {
       
@@ -23,8 +26,9 @@ const LogoutButton = () => {
       }
     },
     onSuccess: () => {
-      toast.success("logout success")
+      toast.success("logout success");
 
+      queryClient.invalidateQueries({ queryKey: ['authUser'] });
     },
     onError: () => {
       toast.error("logout failed")

@@ -15,7 +15,7 @@ const App = () => {
       try {
         const res = await fetch("/api/auth/me");
         const data = await res.json();
-        if (data.error) return null;
+        if (data.error) return null; // for logout
         if (!res.ok) {
           throw new Error(data.error || "Something went wrong");
         }
