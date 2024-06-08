@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {toast }from "react-hot-toast"
 
 
@@ -9,6 +9,9 @@ const Login = () => {
         username: "",
         password: ""
     });
+
+    const queryClient = useQueryClient();
+
 
     const { mutate, isPending, isError, error, } = useMutation({
         mutationFn: async ({ username, password }) => {
@@ -30,7 +33,9 @@ const Login = () => {
             }
         },
         onSuccess: () => {
-            toast.success("Login successful")
+            toast.success("Login successful");
+            queryClient.invalidateQueries({ queryKey: ["authUser"] });
+
         },
     });
 
