@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import GenderCheckBox from "./GenderCheckBox";
 import { Link } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 const SignUp = () => {
+
+  const queryClient = useQueryClient();
+
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -29,6 +32,8 @@ const SignUp = () => {
     },
     onSuccess: () => {
       toast.success("Account created successfully");
+
+      queryClient.invalidateQueries({queryKey: ["authUser"]})
     },
     onError: (error) => {
       toast.error(error.message);
