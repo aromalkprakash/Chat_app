@@ -36,6 +36,23 @@ export const fetchConversations = createAsyncThunk(
   }
 );
 
+export const fetchMessages = createAsyncThunk(
+  'messages/fetchMessages',
+  async (conversationId, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`/api/messages/${conversationId}`);
+      const data = await res.json();
+      if (res.ok) {
+        return data;
+      } else {
+        throw new Error(data.error || 'Failed to fetch messages');
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 
 // Action to reset selected user ID
 export const resetSelectedUserId = () => ({

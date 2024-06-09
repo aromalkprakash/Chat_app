@@ -16,7 +16,7 @@ const SendMessage = () => {
       setMessage(""); // Clear the message input after sending
     } catch (error) {
       console.error("Error sending message:", error);
-      // Handle error (e.g., show error message to user)
+     
     }
   };
 
