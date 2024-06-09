@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
 
 const Conversation = () => {
+    const [selectedUserId, setSelectedUserId] = useState(null);
+
     const { data: usersList, isLoading } = useQuery({
         queryKey: ["suggestedUsers"],
         queryFn: async () => {
@@ -18,12 +20,18 @@ const Conversation = () => {
 
     if (usersList?.length === 0) return <div className='md:w-64 w-0'></div>;
 
+    const handleUserClick = (userId) => {
+        setSelectedUserId(userId);
+    };
+
     return (
-        <>
-            <div class="overflow-auto ...">
+        <div className='max-h-96 overflow-auto'>
             {usersList?.map((user, index) => (
                 <React.Fragment key={user._id}>
-                    <div className='flex gap-2 items-center hover:bg-sky-500 rounded p-2 py-1 cursor-pointer'>
+                    <div
+                        className={`flex gap-2 items-center rounded p-2 py-1 cursor-pointer ${selectedUserId === user._id ? 'bg-blue-500' : 'hover:bg-sky-500'}`}
+                        onClick={() => handleUserClick(user._id)}
+                    >
                         <div className='avatar online'>
                             <div className='w-12 rounded-full'>
                                 <img
@@ -42,9 +50,8 @@ const Conversation = () => {
                     </div>
                     {index < usersList.length - 1 && <div className='divider my-0 py-0 h-1' />}
                 </React.Fragment>
-            ))};
-                </div>
-        </>
+            ))}
+        </div>
     );
 };
 
