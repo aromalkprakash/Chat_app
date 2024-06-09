@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchConversations, selectUser } from '../../../redux/conversationsSlice';
+import { fetchConversations, selectUser,  toResetSelectedUserId } from '../../../redux/conversationsSlice'; // Import resetSelectedUserId action creator
 
 const Conversation = () => {
   const dispatch = useDispatch();
@@ -8,6 +8,11 @@ const Conversation = () => {
 
   useEffect(() => {
     dispatch(fetchConversations());
+
+    // Cleanup function to reset selected user ID when component unmounts
+    return () => {
+      dispatch(toResetSelectedUserId());
+    };
   }, [dispatch]);
 
   const handleUserClick = (userId) => {

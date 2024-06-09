@@ -12,6 +12,11 @@ export const fetchConversations = createAsyncThunk(
   }
 );
 
+// Action to reset selected user ID
+export const resetSelectedUserId = () => ({
+  type: 'conversations/resetSelectedUserId'
+});
+
 const conversationsSlice = createSlice({
   name: 'conversations',
   initialState: {
@@ -23,6 +28,10 @@ const conversationsSlice = createSlice({
   reducers: {
     selectUser: (state, action) => {
       state.selectedUserId = action.payload;
+    },
+    // Reducer case to reset selected user ID
+    toResetSelectedUserId: (state) => {
+      state.selectedUserId = null;
     },
   },
   extraReducers: (builder) => {
@@ -41,6 +50,6 @@ const conversationsSlice = createSlice({
   },
 });
 
-export const { selectUser } = conversationsSlice.actions;
+export const { selectUser, toResetSelectedUserId } = conversationsSlice.actions;
 
 export default conversationsSlice.reducer;
