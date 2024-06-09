@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchConversations, selectUser,  toResetSelectedUserId } from '../../../redux/conversationsSlice'; // Import resetSelectedUserId action creator
+import { fetchConversations, selectUser,  toResetSelectedUserId } from '../../../redux/conversationsSlice'; 
 
 const Conversation = () => {
   const dispatch = useDispatch();
