@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BsSend } from "react-icons/bs";
-import { sendMessageToUser } from "../../../redux/conversationsSlice.js"
+import { sendMessageToUser } from "../../../redux/userLists/conversationsSlice.js"
 
 const MessageInput = () => {
   const [message, setMessage] = useState("");
@@ -39,5 +39,5 @@ const MessageInput = () => {
     </form>
   );
 };
-
 export default MessageInput;
+

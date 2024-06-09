@@ -1,30 +1,23 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchConversations, selectUser,  toResetSelectedUserId } from '../../../redux/conversationsSlice'; 
+import { fetchConversations, selectUser,  toResetSelectedUserId } from '../../../redux/userLists/conversationsSlice'; 
 
 const Conversation = () => {
   const dispatch = useDispatch();
   const { usersList, selectedUserId, isLoading, error } = useSelector((state) => state.conversations);
-
   useEffect(() => {
     dispatch(fetchConversations());
-
     // Cleanup function to reset selected user ID when component unmounts
     return () => {
       dispatch(toResetSelectedUserId());
     };
   }, [dispatch]);
-
   const handleUserClick = (userId) => {
     dispatch(selectUser(userId));
   };
-
   if (isLoading) return <div>Loading...</div>;
-
   if (error) return <div>Error: {error}</div>;
-
   if (usersList?.length === 0) return <div className='md:w-64 w-0'></div>;
-
   return (
     <div className='max-h-96 overflow-auto'>
       {usersList?.map((user, index) => (
@@ -42,7 +35,6 @@ const Conversation = () => {
                 />
               </div>
             </div>
-
             <div className='flex flex-col flex-1'>
               <div className='flex gap-3 justify-between'>
                 <p className='font-bold text-gray-200'>{user.fullName}</p>
@@ -56,5 +48,4 @@ const Conversation = () => {
     </div>
   );
 };
-
 export default Conversation;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sendMessageToUser } from "../redux/conversationsSlice.js";
+import { sendMessageToUser } from "../redux/userList/conversationsSlice.js";
 
 const SendMessage = () => {
   const [message, setMessage] = useState("");
@@ -16,7 +16,7 @@ const SendMessage = () => {
       setMessage(""); // Clear the message input after sending
     } catch (error) {
       console.error("Error sending message:", error);
-     
+      // Handle error (e.g., show error message to user)
     }
   };
 
@@ -36,4 +36,3 @@ const SendMessage = () => {
 };
 
 export default SendMessage;
-
