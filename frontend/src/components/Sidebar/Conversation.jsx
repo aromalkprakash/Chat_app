@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchConversations, selectUser } from '../../../redux/conversationsSlice'
+import { fetchConversations, selectUser } from '../../../redux/conversationsSlice';
 
 const Conversation = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,8 @@ const Conversation = () => {
       {usersList?.map((user, index) => (
         <React.Fragment key={user._id}>
           <div
-            className={`flex gap-2 items-center rounded p-2 py-1 cursor-pointer ${selectedUserId === user._id ? 'bg-blue-500' : 'hover:bg-sky-500'}`}
+            className={`flex gap-2 items-center rounded p-2 py-1 cursor-pointer 
+            ${selectedUserId === user._id ? 'bg-blue-500' : 'hover:bg-sky-500'}`}
             onClick={() => handleUserClick(user._id)}
           >
             <div className='avatar online'>
