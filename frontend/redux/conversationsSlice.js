@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Async actions using createAsyncThunk
+
 export const sendMessageToUser = createAsyncThunk(
   'conversations/sendMessageToUser',
   async ({ selectedUserId, message }, thunkAPI) => {
@@ -57,13 +58,14 @@ const conversationsSlice = createSlice({
     error: null,
     messages: [],
     authUser: null, // Add authUser to the initial state
+    toResetSelectedUserId: null,
   },
   reducers: {
     selectUser: (state, action) => {
       state.selectedUserId = action.payload;
     },
     toResetSelectedUserId: (state) => {
-      state.selectedUserId = null;
+      state.toResetSelectedUserId = null;
     },
     setAuthUser: (state, action) => {
       state.authUser = action.payload;

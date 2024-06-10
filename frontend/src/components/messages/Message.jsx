@@ -6,7 +6,7 @@ const Message = ({ message }) => {
     
     const queryClient = useQueryClient();
     const selectedUserId = useSelector((state) => state.conversations.selectedUserId);
-    const authUser = useSelector((state) => state.authUser); // Assuming authUser is stored in Redux state
+    const authUser = useSelector((state) => state.conversations.authUser); 
     const fromMe = authUser && message.senderId === authUser._id;
     const chatClassName = fromMe ? "chat-end" : "chat-start";
     const profilePic = fromMe ? authUser.profilePic : selectedUserId.profilePic;
