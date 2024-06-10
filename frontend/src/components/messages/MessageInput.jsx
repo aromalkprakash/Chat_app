@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BsSend } from "react-icons/bs";
-import { sendMessageToUser } from "../../../redux/userLists/conversationsSlice.js"
+import { sendMessageToUser } from "../../../redux/conversationsSlice.js"
 
 const MessageInput = () => {
   const [message, setMessage] = useState("");
@@ -15,7 +15,9 @@ const MessageInput = () => {
 
     try {
       await dispatch(sendMessageToUser({ userId: selectedUserId, message }));
+
       setMessage(""); // Clear the message input after sending
+      
     } catch (error) {
       console.error("Error sending message:", error);
       // Handle error

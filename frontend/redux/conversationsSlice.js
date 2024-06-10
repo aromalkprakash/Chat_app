@@ -1,25 +1,24 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+// Async actions using createAsyncThunk
 export const sendMessageToUser = createAsyncThunk(
   'conversations/sendMessageToUser',
   async ({ userId, message }) => {
-    try {
-      const response = await fetch(`/api/messages/send/${userId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'Something went wrong');
-      }
-      return data;
-    } catch (error) {
-      throw new Error(error.message);
+    const response = await fetch(`/api/messages/send/${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || 'Something went wrong');
     }
+    return data;
   }
 );
+
 export const fetchConversations = createAsyncThunk(
   'conversations/fetchConversations',
   async () => {
@@ -32,12 +31,24 @@ export const fetchConversations = createAsyncThunk(
   }
 );
 
+export const getMessages = createAsyncThunk(
+  'conversations/getMessages',
+  async (userId) => {
+    const response = await fetch(`/api/messages/${userId}`);
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || 'Something went wrong');
+    }
+    return data;
+  }
+);
 
 // Action to reset selected user ID
 export const resetSelectedUserId = () => ({
-  type: 'conversations/resetSelectedUserId'
+  type: 'conversations/resetSelectedUserId',
 });
 
+// Slice
 const conversationsSlice = createSlice({
   name: 'conversations',
   initialState: {
@@ -45,6 +56,7 @@ const conversationsSlice = createSlice({
     selectedUserId: null,
     isLoading: false,
     error: null,
+    messages: [], // Add messages to the initial state
   },
   reducers: {
     selectUser: (state, action) => {
@@ -68,17 +80,33 @@ const conversationsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(sendMessageToUser.pending, (state) => {
-        
+        state.isLoading = true;
       })
       .addCase(sendMessageToUser.fulfilled, (state, action) => {
-        
+        state.isLoading = false;
+        // Optionally update messages state with the newly sent message
+        state.messages.push(action.payload);
       })
       .addCase(sendMessageToUser.rejected, (state, action) => {
-        
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getMessages.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getMessages.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.messages = action.payload; // Update state with fetched messages
+      })
+      .addCase(getMessages.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
       });
   },
 });
+
 // Exporting actions
 export const { selectUser, toResetSelectedUserId } = conversationsSlice.actions;
+
 // Exporting reducer
 export default conversationsSlice.reducer;
