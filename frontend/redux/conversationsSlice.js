@@ -3,13 +3,17 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Async actions using createAsyncThunk
 export const sendMessageToUser = createAsyncThunk(
   'conversations/sendMessageToUser',
-  async ({ selectedUserId, message }) => {
+  async ({ selectedUserId, message }, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const { authUser } = state.conversations;
+
     const response = await fetch(`/api/messages/send/${selectedUserId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authUser.token}`, // Assuming authUser contains a token
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message, senderId: authUser._id }), // Include senderId if needed
     });
     const data = await response.json();
     if (!response.ok) {
@@ -43,17 +47,6 @@ export const getMessages = createAsyncThunk(
   }
 );
 
-// Action to reset selected user ID
-export const resetSelectedUserId = () => ({
-  type: 'conversations/resetSelectedUserId',
-});
-
-export const setMessages = (messages) => ({
-  type: 'conversations/setMessages',
-  payload: messages,
-});
-
-
 // Slice
 const conversationsSlice = createSlice({
   name: 'conversations',
@@ -62,7 +55,8 @@ const conversationsSlice = createSlice({
     selectedUserId: null,
     isLoading: false,
     error: null,
-    messages: [], // Add messages to the initial state
+    messages: [],
+    authUser: null, // Add authUser to the initial state
   },
   reducers: {
     selectUser: (state, action) => {
@@ -70,6 +64,11 @@ const conversationsSlice = createSlice({
     },
     toResetSelectedUserId: (state) => {
       state.selectedUserId = null;
+    },
+    setAuthUser: (state, action) => {
+      state.authUser = action.payload;
+      console.log('Auth User:', action.payload);// Log the authUser
+
     },
   },
   extraReducers: (builder) => {
@@ -90,7 +89,6 @@ const conversationsSlice = createSlice({
       })
       .addCase(sendMessageToUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Optionally update messages state with the newly sent message
         state.messages.push(action.payload);
       })
       .addCase(sendMessageToUser.rejected, (state, action) => {
@@ -102,7 +100,7 @@ const conversationsSlice = createSlice({
       })
       .addCase(getMessages.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.messages = action.payload; // Update state with fetched messages
+        state.messages = action.payload;
       })
       .addCase(getMessages.rejected, (state, action) => {
         state.isLoading = false;
@@ -112,7 +110,7 @@ const conversationsSlice = createSlice({
 });
 
 // Exporting actions
-export const { selectUser, toResetSelectedUserId } = conversationsSlice.actions;
+export const { selectUser, toResetSelectedUserId, setAuthUser } = conversationsSlice.actions;
 
 // Exporting reducer
 export default conversationsSlice.reducer;
