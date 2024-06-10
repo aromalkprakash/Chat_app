@@ -3,8 +3,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Async actions using createAsyncThunk
 export const sendMessageToUser = createAsyncThunk(
   'conversations/sendMessageToUser',
-  async ({ userId, message }) => {
-    const response = await fetch(`/api/messages/send/${userId}`, {
+  async ({ selectedUserId, message }) => {
+    const response = await fetch(`/api/messages/send/${selectedUserId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,8 +33,8 @@ export const fetchConversations = createAsyncThunk(
 
 export const getMessages = createAsyncThunk(
   'conversations/getMessages',
-  async (userId) => {
-    const response = await fetch(`/api/messages/${userId}`);
+  async (selectedUserId) => {
+    const response = await fetch(`/api/messages/${selectedUserId}`);
     const data = await response.json();
     if (!response.ok) {
       throw new Error(data.error || 'Something went wrong');
@@ -47,6 +47,12 @@ export const getMessages = createAsyncThunk(
 export const resetSelectedUserId = () => ({
   type: 'conversations/resetSelectedUserId',
 });
+
+export const setMessages = (messages) => ({
+  type: 'conversations/setMessages',
+  payload: messages,
+});
+
 
 // Slice
 const conversationsSlice = createSlice({
