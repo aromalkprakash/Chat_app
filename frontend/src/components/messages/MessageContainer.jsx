@@ -7,8 +7,7 @@ import Messages from './Messages';
 const MessageContainer = ({ selectedUserId }) => {
   const noChatSelected = !selectedUserId;
 
-  const selectedUser = useSelector((state) =>
-    state.conversations.usersList.find(user => user._id === selectedUserId)
+  const selectedUser = useSelector((state) => state.conversations.usersList.find(user => user._id === selectedUserId)
   );
 
   return (

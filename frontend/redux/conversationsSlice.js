@@ -49,7 +49,6 @@ export const getMessages = createAsyncThunk(
   }
 );
 
-// Slice
 const conversationsSlice = createSlice({
   name: 'conversations',
   initialState: {
@@ -58,8 +57,9 @@ const conversationsSlice = createSlice({
     isLoading: false,
     error: null,
     messages: [],
-    authUser: null, // Add authUser to the initial state
+    authUser: null,
     toResetSelectedUserId: null,
+    lastMessage: null, // Track the last sent message
   },
   reducers: {
     selectUser: (state, action) => {
@@ -70,8 +70,7 @@ const conversationsSlice = createSlice({
     },
     setAuthUser: (state, action) => {
       state.authUser = action.payload;
-      console.log('Auth User:', action.payload);// Log the authUser
-
+      console.log('Auth User:', action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -93,6 +92,7 @@ const conversationsSlice = createSlice({
       .addCase(sendMessageToUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.messages.push(action.payload);
+        state.lastMessage = action.payload; // Set the last message
       })
       .addCase(sendMessageToUser.rejected, (state, action) => {
         state.isLoading = false;
