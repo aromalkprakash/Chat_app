@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useQueryClient } from '@tanstack/react-query';
+import { extractTime } from '../../utils/extractTime';
 
 const Message = ({ message }) => {
     
@@ -11,6 +12,7 @@ const Message = ({ message }) => {
     const chatClassName = fromMe ? "chat-end" : "chat-start";
     const profilePic = fromMe ? authUser.profilePic : selectedUserId.profilePic;
     const bubbleBgColor = fromMe ? "" : "bg-blue-500";
+    const formattedTime = extractTime(message.createdAt);
 
     useEffect(() => {
         queryClient.invalidateQueries({ queryKey: ["authUser"] });
@@ -28,7 +30,7 @@ const Message = ({ message }) => {
                 </div>
             </div>
             <div className={`chat-bubble text-white ${bubbleBgColor}`}>{message.message}</div>
-            <div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>11.11</div>
+            <div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{formattedTime}</div>
         </div>
     );
 };

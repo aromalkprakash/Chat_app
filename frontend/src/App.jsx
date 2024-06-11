@@ -44,10 +44,10 @@ const App = () => {
     );
   }
 
-
   return (
     <div className='p-4 h-screen flex items-center justify-center'>
       <Routes>
+        {/* Redirect to login page if not authenticated */}
         <Route path="/" element={authUser ? <Home /> : <Navigate to='/login' />} />
         <Route path="/login" element={!authUser ? <Login /> : <Navigate to='/' />} />
         <Route path="/signup" element={!authUser ? <SignUp /> : <Navigate to='/' />} />

@@ -8,18 +8,17 @@ const MessageInput = () => {
   const loading = useSelector((state) => state.conversations.isLoading);
   const selectedUserId = useSelector((state) => state.conversations.selectedUserId);
   
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const message = e.target.message.value.trim(); // Get message from the input field
-    if (!message || !selectedUserId) return; // Don't send empty messages or if no user is selected
+    
+    const message = e.target.message.value.trim();
+    if (!message || !selectedUserId) return;
 
     try {
       await dispatch(sendMessageToUser({ selectedUserId, message }));
-      e.target.message.value = ""; // Clear the input field after sending
+      e.target.message.value = "";
     } catch (error) {
       console.error("Error sending message:", error);
-      // Handle error
     }
   };
 
@@ -28,7 +27,7 @@ const MessageInput = () => {
       <div className="w-full relative">
         <input
           type="text"
-          name="message" // Add name attribute for accessing the value in handleSubmit
+          name="message"
           className="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 text-white"
           placeholder="Send a message"
         />

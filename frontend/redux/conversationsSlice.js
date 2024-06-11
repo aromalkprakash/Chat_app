@@ -20,6 +20,7 @@ export const sendMessageToUser = createAsyncThunk(
     if (!response.ok) {
       throw new Error(data.error || 'Something went wrong');
     }
+    
     return data;
   }
 );
