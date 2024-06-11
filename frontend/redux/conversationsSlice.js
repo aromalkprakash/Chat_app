@@ -54,12 +54,12 @@ const conversationsSlice = createSlice({
   initialState: {
     usersList: [],
     selectedUserId: null,
-    isLoading: false,
+    isLoadingMessages: false,  // Loading state for fetching messages
+    isSendingMessage: false,   // Loading state for sending message
     error: null,
     messages: [],
     authUser: null,
     toResetSelectedUserId: null,
-    lastMessage: null, // Track the last sent message
   },
   reducers: {
     selectUser: (state, action) => {
@@ -76,37 +76,37 @@ const conversationsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchConversations.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadingMessages = true;
       })
       .addCase(fetchConversations.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingMessages = false;
         state.usersList = action.payload;
       })
       .addCase(fetchConversations.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingMessages = false;
         state.error = action.error.message;
       })
       .addCase(sendMessageToUser.pending, (state) => {
-        state.isLoading = true;
+        state.isSendingMessage = true;
       })
       .addCase(sendMessageToUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.messages.push(action.payload);
+        state.isSendingMessage = false;
+        state.messages = [...state.messages, action.payload]; // Append new message to existing messages array
         state.lastMessage = action.payload; // Set the last message
       })
       .addCase(sendMessageToUser.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isSendingMessage = false;
         state.error = action.error.message;
       })
       .addCase(getMessages.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadingMessages = true;
       })
       .addCase(getMessages.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingMessages = false;
         state.messages = action.payload;
       })
       .addCase(getMessages.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingMessages = false;
         state.error = action.error.message;
       });
   },

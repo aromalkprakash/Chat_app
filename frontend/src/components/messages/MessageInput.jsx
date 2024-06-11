@@ -5,7 +5,7 @@ import { sendMessageToUser } from "../../../redux/conversationsSlice.js";
 
 const MessageInput = () => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.conversations.isLoading);
+  const loading = useSelector((state) => state.conversations.isSendingMessage);
   const selectedUserId = useSelector((state) => state.conversations.selectedUserId);
   
   const handleSubmit = async (e) => {

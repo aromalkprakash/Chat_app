@@ -4,7 +4,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { extractTime } from '../../utils/extractTime';
 
 const Message = ({ message }) => {
-    
     const queryClient = useQueryClient();
     const selectedUserId = useSelector((state) => state.conversations.selectedUserId);
     const authUser = useSelector((state) => state.conversations.authUser); 
@@ -12,8 +11,8 @@ const Message = ({ message }) => {
 
     const fromMe = authUser && message.senderId === authUser._id;
     const chatClassName = fromMe ? "chat-end" : "chat-start";
-    const profilePic = fromMe ? authUser.profilePic : selectedUser ?.profilePic;
-    const bubbleBgColor = fromMe ? "" : "bg-blue-500";
+    const profilePic = fromMe ? authUser.profilePic : selectedUser?.profilePic;
+    const bubbleBgColor = fromMe ? "bg-blue-500" : "";
     const formattedTime = extractTime(message.createdAt);
 
     useEffect(() => {
@@ -31,8 +30,8 @@ const Message = ({ message }) => {
                         src={profilePic} />
                 </div>
             </div>
-            <div className={`chat-bubble text-white ${bubbleBgColor}`}>{message.message}</div>
-            <div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{formattedTime}</div>
+            <div className={`chat-bubble text-white ${bubbleBgColor} pb-2`}>{message.message}</div>
+            <div className='chat-footer opacity-100 text-xs flex gap-1 items-center'>{formattedTime}</div>
         </div>
     );
 };
