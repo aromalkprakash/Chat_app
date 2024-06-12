@@ -116,15 +116,15 @@ const conversationsSlice = createSlice({
   },
 });
 
-// export const selectFilteredUsersList = (state) => {
-//   const { usersList, searchQuery } = state.conversations;
-//   if (!searchQuery) return usersList;
-//   return usersList.filter(user => user.username.toLowerCase().includes(searchQuery.toLowerCase()));
-// };
+export const selectFilteredUsersList = (state) => {
+  const { usersList, searchQuery } = state.conversations;
+  if (!searchQuery) return usersList;
+  return usersList.filter(user => user.username.toLowerCase().includes(searchQuery.toLowerCase()));
+};
 
 
 // Exporting actions
-export const { selectUser, toResetSelectedUserId, setAuthUser, setSearchQuery} = conversationsSlice.actions;
+export const { selectUser, toResetSelectedUserId, setAuthUser,setSearchQuery} = conversationsSlice.actions;
 
 // Exporting reducer
 export default conversationsSlice.reducer;

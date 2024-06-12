@@ -7,6 +7,7 @@ const Message = ({ message }) => {
     const queryClient = useQueryClient();
     const selectedUserId = useSelector((state) => state.conversations.selectedUserId);
     const authUser = useSelector((state) => state.conversations.authUser); 
+    
     const selectedUser = useSelector((state) => state.conversations.usersList.find(user => user._id === selectedUserId));
 
     const fromMe = authUser && message.senderId === authUser._id;

@@ -12,17 +12,21 @@ import { setAuthUser } from "../redux/conversationsSlice.js";
 import './App.css';
 
 const App = () => {
+
   const dispatch = useDispatch();
-  
+
   const { data: authUser, isLoading, error } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
         const res = await fetch("/api/auth/me");
+        const data = await res.json();
+				if (data.error) return null;
         if (!res.ok) {
           throw new Error('Failed to fetch authUser');
         }
-        return await res.json();
+        console.log("authUser is here:", data);
+				return data;
       } catch (error) {
         throw new Error(error.message);
       }
@@ -47,9 +51,9 @@ const App = () => {
   return (
     <div className='p-4 h-screen flex items-center justify-center'>
       <Routes>
-        <Route path="/" element={authUser ? <Home /> : <Navigate to='/login' />} />
-        <Route path="/login" element={!authUser ? <Login /> : <Navigate to='/' />} />
-        <Route path="/signup" element={!authUser ? <SignUp /> : <Navigate to='/' />} />
+        <Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
+        <Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
+        <Route path='/signup' element={authUser ? <Navigate to='/' /> : <SignUp />} />
       </Routes>
       <Toaster />
     </div>

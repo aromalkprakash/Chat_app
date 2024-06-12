@@ -1,10 +1,14 @@
-import React from 'react'
+import React from 'react';
 import { BiLogOut } from "react-icons/bi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {toast} from "react-hot-toast"
-import { Navigate } from 'react-router-dom';
+import { toast } from "react-hot-toast";
+import { useDispatch } from 'react-redux';
+import { setAuthUser } from "../../../redux/conversationsSlice.js";
+
 
 const LogoutButton = () => {
+
+  const dispatch = useDispatch();
 
   const queryClient = useQueryClient();
   
@@ -29,6 +33,8 @@ const LogoutButton = () => {
     onSuccess: () => {
       toast.success("logout success");
 
+      dispatch(setAuthUser(null));
+
       queryClient.invalidateQueries({ queryKey: ['authUser'] });
       
     },
@@ -52,4 +58,4 @@ const LogoutButton = () => {
   )
 };
 
-export default LogoutButton
+export default LogoutButton;
