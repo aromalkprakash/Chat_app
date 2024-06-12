@@ -11,7 +11,6 @@ const Messages = () => {
   const messages = useSelector((state) => state.conversations.messages);
   const selectedUserId = useSelector((state) => state.conversations.selectedUserId);
   const isLoadingMessages = useSelector((state) => state.conversations.isLoadingMessages);
-  const isSendingMessage = useSelector((state) => state.conversations.isSendingMessage);
 
   useEffect(() => {
     if (selectedUserId) {

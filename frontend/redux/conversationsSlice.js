@@ -60,6 +60,7 @@ const conversationsSlice = createSlice({
     messages: [],
     authUser: null,
     toResetSelectedUserId: null,
+    searchQuery: '', 
   },
   reducers: {
     selectUser: (state, action) => {
@@ -71,6 +72,9 @@ const conversationsSlice = createSlice({
     setAuthUser: (state, action) => {
       state.authUser = action.payload;
       console.log('Auth User:', action.payload);
+    },
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -112,8 +116,17 @@ const conversationsSlice = createSlice({
   },
 });
 
+// export const selectFilteredUsersList = (state) => {
+//   const { usersList, searchQuery } = state.conversations;
+//   if (!searchQuery) return usersList;
+//   return usersList.filter(user => user.username.toLowerCase().includes(searchQuery.toLowerCase()));
+// };
+
+
 // Exporting actions
-export const { selectUser, toResetSelectedUserId, setAuthUser } = conversationsSlice.actions;
+export const { selectUser, toResetSelectedUserId, setAuthUser, setSearchQuery} = conversationsSlice.actions;
 
 // Exporting reducer
 export default conversationsSlice.reducer;
+
+

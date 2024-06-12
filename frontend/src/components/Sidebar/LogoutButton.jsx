@@ -2,6 +2,7 @@ import React from 'react'
 import { BiLogOut } from "react-icons/bi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {toast} from "react-hot-toast"
+import { Navigate } from 'react-router-dom';
 
 const LogoutButton = () => {
 
@@ -29,9 +30,12 @@ const LogoutButton = () => {
       toast.success("logout success");
 
       queryClient.invalidateQueries({ queryKey: ['authUser'] });
+      
     },
+    
     onError: () => {
       toast.error("logout failed")
+        
     }
   });
     const LogoutFunction = (e) => {
