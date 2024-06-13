@@ -24,13 +24,13 @@ export const SocketContextProvider = ({ children }) => {
 				},
 			});
 
-			setSocket(socket);
+			setSocket(newSocket);
 
-			// socket.on("getOnlineUsers", (users) => {
-			// 	setOnlineUsers(users);
-			// });
+			newSocket.on("getOnlineUsers", (users) => {
+				setOnlineUsers(users);
+			});
 
-			// return () => socket.close();
+			return () => newSocket.close();
 		} else {
 			if (socket) {
 				socket.close();
