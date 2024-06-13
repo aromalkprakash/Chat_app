@@ -18,19 +18,20 @@ export const SocketContextProvider = ({ children }) => {
 		queryClient.invalidateQueries({ queryKey: ['authUser'] });
 
 		if (authUser) {
-			const newSocket = io("http://localhost:5000", {
+			const socket = io("http://localhost:5000", {
 				query: {
 					userId: authUser._id,
 				},
 			});
 
-			setSocket(newSocket);
+			setSocket(socket);
 
-			newSocket.on("getOnlineUsers", (users) => {
+		    // to listen to the events. can be used on both server side and client side.
+			socket.on("getOnlineUsers", (users) => {
 				setOnlineUsers(users);
 			});
 
-			return () => newSocket.close();
+			return () => socket.close();
 		} else {
 			if (socket) {
 				socket.close();
