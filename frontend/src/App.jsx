@@ -10,12 +10,13 @@ import LoadingSpinner from './components/common/LoadingSpinner';
 import { setAuthUser } from "../redux/conversationsSlice.js";
 
 import './App.css';
+import { SocketContextProvider } from './context/socketContext.jsx';
 
 const App = () => {
 
   const dispatch = useDispatch();
 
-  const { data: authUser, isLoading, error } = useQuery({
+  const { data: authUser, isLoading } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
@@ -49,6 +50,7 @@ const App = () => {
   }
 
   return (
+    <SocketContextProvider authUser={authUser}>
     <div className='p-4 h-screen flex items-center justify-center'>
       <Routes>
         <Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
@@ -56,7 +58,8 @@ const App = () => {
         <Route path='/signup' element={authUser ? <Navigate to='/' /> : <SignUp />} />
       </Routes>
       <Toaster />
-    </div>
+      </div>
+      </SocketContextProvider>
   );
 };
 

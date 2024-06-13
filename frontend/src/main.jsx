@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux';
 import { store } from '../../frontend/redux/store.js'
 import App from './App.jsx'
+import { SocketContextProvider, } from './context/socketContext.jsx'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,8 +19,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <SocketContextProvider>
+            <App />
+          </SocketContextProvider>
       </QueryClientProvider>
         </Provider>
     </BrowserRouter>

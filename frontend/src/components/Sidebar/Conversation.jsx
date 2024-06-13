@@ -38,7 +38,7 @@ const Conversation = () => {
             >
               <div className="avatar online">
                 <div className="w-12 rounded-full">
-                  <img src={user.profilePic} alt="user avatar" />
+                <img src={user.profilePic} alt="user avatar" />
                 </div>
               </div>
               <div className="flex flex-col flex-1">
