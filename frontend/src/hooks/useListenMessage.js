@@ -11,7 +11,8 @@ const useListenMessage = () => {
   useEffect(() => {
     if (socket) {
       console.log('Socket is connected, setting up listener for newMessage');
-      socket.on("newMessage", (newMessage) => {
+        socket.on("newMessage", (newMessage) => {
+            newMessage.shouldShake = true;
         console.log('Received newMessage event:', newMessage);
         dispatch(setMessages([...messages, newMessage]));
       });

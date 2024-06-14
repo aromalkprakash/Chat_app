@@ -13,8 +13,9 @@ const Message = ({ message }) => {
     const fromMe = authUser && message.senderId === authUser._id;
     const chatClassName = fromMe ? "chat-end" : "chat-start";
     const profilePic = fromMe ? authUser.profilePic : selectedUser?.profilePic;
-    const bubbleBgColor = fromMe ? "bg-blue-500" : "";
+    const bubbleBgColor = fromMe ? "bg-blue-500" : "" ;
     const formattedTime = extractTime(message.createdAt);
+    const shakeCLass = message.shouldShake ? "shake" : "" ;
 
     useEffect(() => {
         queryClient.invalidateQueries({ queryKey: ["authUser"] });
@@ -31,7 +32,7 @@ const Message = ({ message }) => {
                         src={profilePic} />
                 </div>
             </div>
-            <div className={`chat-bubble text-white ${bubbleBgColor} pb-2`}>{message.message}</div>
+            <div className={`chat-bubble text-white ${bubbleBgColor} ${shakeCLass} pb-2`}>{message.message}</div>
             <div className='chat-footer opacity-100 text-xs flex gap-1 items-center'>{formattedTime}</div>
         </div>
     );
