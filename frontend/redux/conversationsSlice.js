@@ -69,6 +69,9 @@ const conversationsSlice = createSlice({
     toResetSelectedUserId: (state) => {
       state.toResetSelectedUserId = null;
     },
+    setMessages: (state, action) => {
+      state.messages = action.payload;
+    },
     setAuthUser: (state, action) => {
       state.authUser = action.payload;
       console.log('Auth User:', action.payload);
@@ -124,7 +127,7 @@ export const selectFilteredUsersList = (state) => {
 
 
 // Exporting actions
-export const { selectUser, toResetSelectedUserId, setAuthUser,setSearchQuery} = conversationsSlice.actions;
+export const { selectUser, toResetSelectedUserId, setAuthUser,setSearchQuery, setMessages } = conversationsSlice.actions;
 
 // Exporting reducer
 export default conversationsSlice.reducer;

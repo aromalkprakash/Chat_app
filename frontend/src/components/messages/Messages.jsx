@@ -4,6 +4,7 @@ import { getMessages } from '../../../redux/conversationsSlice.js';
 import MessageSkeleton from '../skeletons/MessageSkeleton.jsx';
 import Message from './Message.jsx';
 import { useQueryClient } from '@tanstack/react-query';
+import useListenMessage from '../../hooks/useListenMessage.js';
 
 const Messages = () => {
   const queryClient = useQueryClient();
@@ -11,13 +12,16 @@ const Messages = () => {
   const messages = useSelector((state) => state.conversations.messages);
   const selectedUserId = useSelector((state) => state.conversations.selectedUserId);
   const isLoadingMessages = useSelector((state) => state.conversations.isLoadingMessages);
-
+  
+useListenMessage();
   useEffect(() => {
     if (selectedUserId) {
       dispatch(getMessages(selectedUserId));
     }
   }, [dispatch, selectedUserId]);
 
+  
+  
   const lastMessageRef = useRef();
 
   useEffect(() => {
