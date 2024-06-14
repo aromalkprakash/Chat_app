@@ -8,46 +8,73 @@ export const sendMessageToUser = createAsyncThunk(
     const state = thunkAPI.getState();
     const { authUser } = state.conversations;
 
-    const response = await fetch(`/api/messages/send/${selectedUserId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authUser.token}`, // Assuming authUser contains a token
-      },
-      body: JSON.stringify({ message, senderId: authUser._id }), // Include senderId if needed
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error || 'Something went wrong');
+    try {
+      const response = await fetch(`/api/messages/send/${selectedUserId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authUser.token}`, // Assuming authUser contains a token
+        },
+        body: JSON.stringify({ message, senderId: authUser._id }), // Include senderId if needed
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Error response:', data);
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      console.log('Successful response:', data);
+      return data;
+    } catch (error) {
+      console.error('Error during fetch:', error);
+      throw error;
     }
-    
-    return data;
   }
 );
 
 export const fetchConversations = createAsyncThunk(
   'conversations/fetchConversations',
   async () => {
-    const response = await fetch('/api/users/list');
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error || 'Something went wrong');
+    try {
+      const response = await fetch('/api/users/list');
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Error response:', data);
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      console.log('Successful response:', data);
+      return data;
+    } catch (error) {
+      console.error('Error during fetch:', error);
+      throw error;
     }
-    return data;
   }
 );
 
 export const getMessages = createAsyncThunk(
   'conversations/getMessages',
   async (selectedUserId) => {
-    const response = await fetch(`/api/messages/${selectedUserId}`);
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error || 'Something went wrong');
+    try {
+      const response = await fetch(`/api/messages/${selectedUserId}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Error response:', data);
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      console.log('Successful response:', data);
+      return data;
+    } catch (error) {
+      console.error('Error during fetch:', error);
+      throw error;
     }
-    return data;
   }
 );
+
 
 const conversationsSlice = createSlice({
   name: 'conversations',

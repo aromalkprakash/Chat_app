@@ -13,14 +13,14 @@ const Messages = () => {
   const selectedUserId = useSelector((state) => state.conversations.selectedUserId);
   const isLoadingMessages = useSelector((state) => state.conversations.isLoadingMessages);
   
-useListenMessage();
+
   useEffect(() => {
     if (selectedUserId) {
       dispatch(getMessages(selectedUserId));
     }
   }, [dispatch, selectedUserId]);
 
-  
+  useListenMessage();
   
   const lastMessageRef = useRef();
 
