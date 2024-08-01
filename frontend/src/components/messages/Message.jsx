@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useQueryClient } from '@tanstack/react-query';
 import { extractTime } from '../../utils/extractTime';
 
 const Message = ({ message }) => {
-    const queryClient = useQueryClient();
     const selectedUserId = useSelector((state) => state.conversations.selectedUserId);
     const authUser = useSelector((state) => state.conversations.authUser); 
     
@@ -17,10 +15,7 @@ const Message = ({ message }) => {
     const formattedTime = extractTime(message.createdAt);
     const shakeCLass = message.shouldShake ? "shake" : "" ;
 
-    useEffect(() => {
-        queryClient.invalidateQueries({ queryKey: ["authUser"] });
-    }, [queryClient]);
-
+ 
     console.log("From Me:", fromMe);
 
     return (

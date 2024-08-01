@@ -28,6 +28,7 @@ const Messages = () => {
     setTimeout(() => {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
+    console.log('getMessages:', messages)
   }, [messages]);
 
   useEffect(() => {
