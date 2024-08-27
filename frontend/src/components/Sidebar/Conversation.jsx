@@ -8,6 +8,7 @@ const Conversation = () => {
   const dispatch = useDispatch();
   const { selectedUserId, isLoading, error } = useSelector((state) => state.conversations);
   const { onlineUsers } = useSocketContext(); // Ensure this hooks into your SocketContext correctly
+  const isOnline = onlineUsers.includes(user._id); // Check if user._id is in onlineUsers array
 
   const filteredUsersLists = filteredUsersList();
 
@@ -30,7 +31,6 @@ const Conversation = () => {
   return (
     <div className="max-h-96 overflow-auto">
       {filteredUsersLists.map((user, index) => {
-        const isOnline = onlineUsers.includes(user._id); // Check if user._id is in onlineUsers array
         return (
           <React.Fragment key={user._id}>
             <div
@@ -38,7 +38,9 @@ const Conversation = () => {
                 ${selectedUserId === user._id ? "bg-blue-500" : "hover:bg-sky-500"}`}
               onClick={() => handleUserClick(user._id)}
             >
+
               <div className={`avatar ${isOnline ? "online" : ""}`}> {/* Apply "online" class if isOnline is true */}
+                
                 <div className="w-12 rounded-full">
                   <img src={user.profilePic} alt="user avatar" />
                 </div>
